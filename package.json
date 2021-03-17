@@ -2,7 +2,7 @@
   "name": "cli-to-web",
   "version": "1.0.0",
   "description": "",
-  "main": ".src/CliToWeb.js",
+  "main": "src/CliToWeb.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

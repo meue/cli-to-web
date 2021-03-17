@@ -20,17 +20,17 @@ npm install cli-to-web\
 
 # usage
 const ui = require("cli-to-web");\
-ui.notify("Hello web interface");
+ui.tell("Hello web interface");
 
 
 # api
 
 // simple message\
-ui.notify("Hey, you rock!");
+ui.tell("Hey, you rock!");
 
 // error message\
 const errormessage = ...\
-ui.notify("something failed. here is your stacktrace: " + errormessage);\
+ui.tell("something failed. here is your stacktrace: " + errormessage);\
 
 // ask a html-page\
 const answer = await ui.ask("Enter some value please: <input id='idOnHTML-page'>");\
