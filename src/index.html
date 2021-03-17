@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .task {
+            color: #424953;
+            box-shadow: 1px 2px 4px 1px rgb(0 0 0 / 10%);
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #b4e080;
+            border-left-width: 10px;
+            border-radius: 5px 0 0 5px;
+            transition: border-left-width .5s;
+        }
+
+        .task.done {
+            border-left-width: 65px;
+        }
+
+        .task.error {
+            border-color: #f76d82;
+        }
+
+        .task.warning {
+            border-color: #ffb347;
+        }
+
+        .task.notify {
+            border-color: #73b1f4;
+        }
+
+        .task.progress {
+            border-color: #238189;
+        }
+
+        .progress .bar {
+            height: 20px;
+            width: 100%;
+            border: 1px solid black;
+            border-radius: 2px;
+            padding: 1px;
+        }
+
+        .progress .bar .fill {
+            transition: width .5s;
+            height: 100%;
+            width: 50%;
+            background-color: #238189;
+            border-radius: 2px;
+        }
+
+
+        .task>div {}
+
+        .task:before {
+            /* icon */
+        }
+
+        p.question {
+            margin-bottom: 10px;
+        }
+
+        input[type=number],
+        input[type=text] {
+            width: calc(100% - 24px);
+            padding: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        div.questionPart {
+            margin-bottom: 20px;
+        }
+
+        input.submit {
+            padding: 10px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="taskList" id="tasks">
+    </div>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+
+    var socket = io();
+    var progresses = [];
+    var tasks = [];
+    socket.on('question', function (msg) {
+        var task = JSON.parse(msg);
+        newTask(task);
+    });
+
+    socket.on('removeTask', function (msg) {
+        var task = JSON.parse(msg);
+        removeTask(task);
+    });
+
+    socket.on('done', function (msg) {
+        var data = JSON.parse(msg);
+        var content = document.createElement("div");
+        content.innerHTML = data.html;
+        createBox(content, "done");
+    });
+
+    socket.on('message', function (msg) {
+        var data = JSON.parse(msg);
+        var content = document.createElement("div");
+        content.innerHTML = data.html;
+        createBox(content, "notify");
+    });
+
+    socket.on('error', function (msg) {
+        var data = JSON.parse(msg);
+        var content = document.createElement("div");
+        content.innerHTML = data.html;
+        createBox(content, "error");
+    });
+
+    socket.on('warning', function (msg) {
+        var data = JSON.parse(msg);
+        var content = document.createElement("div");
+        content.innerHTML = data.html;
+        createBox(content, "warning");
+    });
+
+    socket.on('progress', function (msg) {
+        var json = JSON.parse(msg);
+        var id = json.id;
+        var percent = json.progress;
+        var html = json.html;
+
+        /** @type {Progress} */
+        var progress = progresses[id];
+        if (progress) {
+            // update progress
+            progress.setHTML(html);
+            progress.setProgress(percent);
+            return;
+        }
+
+        // create new progress
+        progress = new Progress();
+        progress.setHTML(html);
+        progress.setProgress(percent);
+        progresses[id] = progress;
+
+    });
+
+    function newTask(json) {
+        // TODO: move to class
+        const id = json.id;
+        const html = json.html;
+        var content = document.createElement("div");
+        var box = createBox(content, "");
+        content.innerHTML = html;
+
+        var okButton = document.createElement("input");
+        okButton.value = "Submit";
+        okButton.type = "button";
+        okButton.className = "submit";
+        okButton.addEventListener("click", function () {
+            var inputs = getInputFields(content);
+            var result = {};
+            var values = [];
+            for (var i = 0; i < inputs.length; i++) {
+                var input = inputs[i];
+
+                if (input == okButton) {
+                    continue;
+                }
+                values.push({ 'id': input.id, 'value': input.value });
+            }
+            result["values"] = values;
+            result["id"] = id;
+            socket.emit('taskDone', JSON.stringify(result));
+        })
+        content.appendChild(okButton);
+        tasks[id] = box;
+    }
+
+    function getInputFields(container) {
+        let fields = [];
+        fields = fields.concat(Array.from(container.getElementsByTagName("input")));
+        fields = fields.concat(Array.from(container.getElementsByTagName("select")));
+        return fields;
+    }
+
+    function removeTask(json) {
+        const id = json.id;
+        const box = tasks[id];
+        box.remove();
+        tasks[id] = undefined;
+    }
+
+    function createBox(content, type) {
+        var taskContainer = document.getElementById("tasks");
+        var task = document.createElement("div");
+
+        task.className = "task " + type;
+        task.appendChild(content);
+        taskContainer.appendChild(task);
+        return task;
+    }
+
+    class Progress {
+        constructor() {
+            this.contentWrapper = document.createElement("div");
+            this.content = document.createElement("div");
+            this.bar = document.createElement("div");
+            this.fill = document.createElement("div");
+
+            this.bar.className = "bar";
+            this.fill.className = "fill";
+
+            this.contentWrapper.appendChild(this.content);
+            this.contentWrapper.appendChild(this.bar);
+            this.bar.appendChild(this.fill);
+
+            this.node = createBox(this.contentWrapper, "progress");
+        }
+
+        setProgress(percent) {
+            this.fill.style.width = percent + "%";
+        }
+
+        setHTML(html) {
+            this.content.innerHTML = html;
+        }
+
+        getNode() {
+            return this.node;
+        }
+    }
+
+
+</script>
+
+</html>
