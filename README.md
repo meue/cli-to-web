@@ -37,7 +37,7 @@ const answer = await ui.ask("Enter some value please: <input id='idOnHTML-page'>
 const someValue = answers.getValue("idOnHTML-page");\
 
 // ask with predefined templates\
-const question = new Question();\
+const question = new ui.Question();\
 question.addString("projectName", "Whats the name of your product?", 20);\
 question.addNumber("someNumber", "please enter some number", 3);\
 question.addChoice("someChoice", "please choose", ["answer1", "answer2", "answer3"]);\

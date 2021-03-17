@@ -96,4 +96,8 @@ class CliToWeb {
     }
 };
 
-module.exports = new CliToWeb();
+const ui = new CliToWeb();
+ui.Question = Question;
+ui.Answer = Answer;
+
+module.exports = ui;

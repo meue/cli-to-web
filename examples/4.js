@@ -1,9 +1,8 @@
 const ui = require("../src/CliToWeb");
-const Question = require("../src/Question");
 
 async function askStuff() {
     // Create Question instance, fill with some values
-    const question = new Question();
+    const question = new ui.Question();
     question.addString("name", "What is your name?", 50);
     question.addNumber("age", "What is your age?", 1, 99);
     question.addChoice("gender", "What is your gender?", ["girl", "boy"]);
