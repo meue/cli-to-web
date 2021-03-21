@@ -1,5 +1,8 @@
 const ui = require("../src/CliToWeb");
 
+// opens the browser. you dont need to call show in the beginning. You can also join later or open the page manually
+ui.show();
+
 async function askStuff() {
     // Create Question instance, fill with some values
     const question = new ui.Question();

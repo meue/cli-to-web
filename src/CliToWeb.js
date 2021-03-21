@@ -1,9 +1,11 @@
+const express = require('express');
 const app = require('express')();
 const webserver = require('http').Server(app);
 const websocket = require('socket.io')(webserver);
 const port = process.env.PORT || 3000;
 const open = require('open');
 const Answer = require('./Answer');
+const Template = require('./Template');
 const Question = require('./Question');
 const Task = require('./Task');
 const TaskManager = require('./TaskManager');
@@ -14,9 +16,11 @@ class CliToWeb {
         this.sockets = [];
         /** @type{Array.<Task>}*/this.tasks = [];
         const self = this;
-        app.get('/', (req, res) => {
-            res.sendFile(__dirname + '/index.html');
-        });
+        /*app.get('/', (req, res) => {
+            res.sendFile(__dirname + '/frontend/index.html');
+        });*/
+
+        app.use('/', express.static(__dirname + '/frontend/'));
 
         webserver.listen(port, () => {
             console.log(`CLI-to-Web-Server running at http://localhost:${port}/`);
@@ -45,7 +49,7 @@ class CliToWeb {
      */
     async ask(data) {
         let html;
-        if (data.constructor.name === "Question") {
+        if (data.constructor.name === "Question" || data.constructor.name === "Template") {
             html = data.getHTML();
         } else {
             html = data;
@@ -94,10 +98,15 @@ class CliToWeb {
         }
         this.taskManager.updateMessage(task);
     }
+
+    registerTemplate(id, path) {
+        app.use('/' + id, express.static(path));
+    }
 };
 
 const ui = new CliToWeb();
-ui.Question = Question;
-ui.Answer = Answer;
+/** @type {Question} **/ ui.Question = Question;
+/** @type {Answer} **/ ui.Answer = Answer;
+/** @type {Template} **/ ui.Template = Template;
 
 module.exports = ui;

@@ -1,0 +1,94 @@
+body {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+iframe {
+    border: 0;
+    width: 100%;
+}
+
+.task {
+    color: #424953;
+    box-shadow: 1px 2px 4px 1px rgb(0 0 0 / 10%);
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #b4e080;
+    border-left-width: 10px;
+    border-radius: 5px 0 0 5px;
+    transition: border-left-width .5s;
+}
+
+.task.done {
+    border-left-width: 65px;
+}
+
+.task.error {
+    border-color: #f76d82;
+}
+
+.task.warning {
+    border-color: #ffb347;
+}
+
+.task.notify {
+    border-color: #73b1f4;
+}
+
+.task.progress {
+    border-color: #238189;
+}
+
+.progress .bar {
+    height: 20px;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 1px;
+}
+
+.progress .bar .fill {
+    transition: width .5s;
+    height: 100%;
+    width: 50%;
+    background-color: #238189;
+    border-radius: 2px;
+}
+
+
+.task > div { }
+
+.task:before {
+    /* icon */
+}
+
+p.question {
+    margin-bottom: 10px;
+}
+
+input[type = number],
+    input[type = text] {
+    width: calc(100% - 24px);
+    padding: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+div.questionPart {
+    margin-bottom: 20px;
+}
+
+input.submit {
+    padding: 10px;
+    display: block;
+}
