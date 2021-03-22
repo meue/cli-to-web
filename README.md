@@ -22,6 +22,24 @@ simple as it should be:
 npm install cli-to-web
 ```
 
+# change port
+defaultport is 3000, but can be changed to anything you like.\
+
+Bash:
+```
+PORT=3001 node ./myNodeApp.js
+```
+Windows Powershell:
+```
+$env:PORT=3001
+node ./myNodeApp.js
+```
+Windows CMD:
+```
+SET PORT=3001
+node ./myNodeApp.js
+```
+
 # usage
 Instantiate it on every node.js-file you need it. It is a singleton and you dont need to pass the instance of cli-to-web
 ```javascript
@@ -87,10 +105,9 @@ For more information about templating, please find the attached example 5.js
 ```javascript
 const templateId = "myForm";
 const templatePath = __dirname + "/myTemplate";
-ui.registerTemplate(templateId, templatePath);
+const myCustomQuestion = ui.registerTemplate(templateId, templatePath, 100);
 
 async function askTemplate() {
-    const myCustomQuestion = new ui.Template(templateId, 100);
     const answer = await ui.ask(myCustomQuestion);
     console.log("Your values:");
     console.log(answer.getValue("valuesFromIframe1"));

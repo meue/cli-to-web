@@ -33,7 +33,7 @@ class CliToWeb {
     }
 
     show() {
-        open('http://localhost:3000/');
+        open(`http://localhost:${port}/`);
     }
 
     initSocketListener(socket) {
@@ -99,8 +99,16 @@ class CliToWeb {
         this.taskManager.updateMessage(task);
     }
 
-    registerTemplate(id, path) {
+    /**
+     * @param {number} id 
+     * @param {string} path 
+     * @param {number} height 
+     * @returns {Template}
+     */
+    registerTemplate(id, path, height) {
         app.use('/' + id, express.static(path));
+        const template = new Template(id, height);
+        return template;
     }
 };
 

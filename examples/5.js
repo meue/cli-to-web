@@ -5,11 +5,10 @@ const templatePath = __dirname + "/5-template";
 // opens the browser. you dont need to call show in the beginning. You can also join later or open the page manually
 ui.show();
 
-ui.registerTemplate(templateId, templatePath);
+const myCustomQuestion = ui.registerTemplate(templateId, templatePath);
 askTemplate();
 
 async function askTemplate() {
-    const myCustomQuestion = new ui.Template(templateId, 100);
     const answer = await ui.ask(myCustomQuestion);
     console.log("Your values:");
     console.log(answer.getValue("valuesFromIframe1"));
