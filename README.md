@@ -48,10 +48,10 @@ const errormessage = ...
 ui.tell("something failed. here is your stacktrace: " + errormessage);
 ```
 
-Ask a html-page
+Ask a html-page. For more complex pages including js and css, please see Templates
 ```javascript
 const answer = await ui.ask("Enter some value please: <input id='idOnHTML-page'>");
-const someValue = answers.getValue("idOnHTML-page");
+const someValue = answer.getValue("idOnHTML-page");
 ```
 
 Ask with predefined templates
@@ -60,6 +60,10 @@ const question = new ui.Question();
 question.addString("projectName", "Whats the name of your product?", 20);
 question.addNumber("someNumber", "please enter some number", 3);
 question.addChoice("someChoice", "please choose", ["answer1", "answer2", "answer3"]);
+question.addColor("someColor", "Tell me a color");
+question.addDate("someDate", "Tell me a date");
+question.addTime("someTime", "Whats your current time?");
+question.addRange("someValue", "I like rangesliders", 1, 100);
 const answer = await ui.ask(question);
 // read result
 const projectName = answer.getValue("projectName");
@@ -81,7 +85,6 @@ ui.updateProgress(progressId, 100, "Im done!");
 Create your 100% custom Prompts using templates.
 For more information about templating, please find the attached example 5.js
 ```javascript
-const ui = require("../src/CliToWeb");
 const templateId = "myForm";
 const templatePath = __dirname + "/myTemplate";
 ui.registerTemplate(templateId, templatePath);
