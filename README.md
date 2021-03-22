@@ -1,5 +1,6 @@
 # Cli-to-web - The Web-interface for your Node-CLI
-Bring your cli to the next level by pushing your terminal prompts to the web.
+Bring your cli to the next level by pushing your terminal prompts to the web.\
+If you like it, I would be super-happy if you star me on <a href="https://github.com/meue/cli-to-web">github</a> :)
 
 # usecases
 - You want to create a <span style="color: red">wizard</span> doing things for you. 
@@ -23,7 +24,7 @@ npm install cli-to-web
 ```
 
 # change port
-defaultport is 3000, but can be changed to anything you like.\
+defaultport is 3000, but can be changed to anything you like.
 
 Bash:
 ```
@@ -82,6 +83,7 @@ question.addColor("someColor", "Tell me a color");
 question.addDate("someDate", "Tell me a date");
 question.addTime("someTime", "Whats your current time?");
 question.addRange("someValue", "I like rangesliders", 1, 100);
+question.addCheckbox("someBool", "please check", false);
 const answer = await ui.ask(question);
 // read result
 const projectName = answer.getValue("projectName");

@@ -14,6 +14,7 @@ async function askStuff() {
     question.addDate("birth", "Whats your birthdate?");
     question.addTime("time", "Whats your current time?");
     question.addRange("sheep", "What is the perfect amount of sheep?", 1, 100);
+    question.addCheckbox("checked", "Check if you are awesome?", true);
 
     // Wait until answer is given
     const answer = await ui.ask(question);
@@ -27,6 +28,7 @@ async function askStuff() {
     const birth = answer.getValue("birth");
     const time = answer.getValue("time");
     const sheep = answer.getValue("sheep");
+    const awesome = answer.getValue("checked") === true;
 
     // Log something 
     console.log(`${name}, the nice is ${age} years old ${gender} is from ${from}.`);
@@ -34,6 +36,12 @@ async function askStuff() {
     console.log(`You are born on ${birth}`);
     console.log(`Its ${time} o'clock`);
     console.log(`${sheep} sheep.. `);
+
+    if (awesome) {
+        console.log(`You are awesome.`);
+    } else {
+        console.log(`You forgot to confirm that you are awesome.`);
+    }
     ui.tell("Thank you.");
 }
 askStuff();

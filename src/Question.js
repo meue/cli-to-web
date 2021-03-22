@@ -86,6 +86,15 @@ class Question {
         this.questionObjects.push(html);
     }
 
+    addCheckbox(valueId, text, checked) {
+        let html = "<div class='questionPart'>";
+        html += `<h2>${text}</h2>`;
+        html += `<input id="${valueId}" type="checkbox" ` + (checked ? "checked" : "") + `/>`;
+        html += "</div>";
+        console.log("html: " + html);
+        this.questionObjects.push(html);
+    }
+
     /**
      * @param {string} htmlCode 
      */

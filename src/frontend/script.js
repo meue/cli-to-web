@@ -81,11 +81,15 @@ function newTask(json) {
         var values = [];
         for (var i = 0; i < inputs.length; i++) {
             var input = inputs[i];
+            let value = input.value;
 
             if (input == okButton) {
                 continue;
             }
-            values.push({ 'id': input.id, 'value': input.value });
+            if (input.type === "checkbox") {
+                value = input.checked;
+            }
+            values.push({ 'id': input.id, 'value': value });
         }
         const iframeValues = getValuesFromIframes(iframes);
         values = values.concat(iframeValues);
