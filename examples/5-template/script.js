@@ -14,3 +14,8 @@ function randomize() {
 }
 
 setInterval(randomize, 500);
+
+function receiveNodeData(data) {
+    console.log("some custom data, send from nodejs:");
+    console.log(data);
+}

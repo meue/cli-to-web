@@ -102,7 +102,8 @@ ui.updateProgress(progressId, 75);
 ui.updateProgress(progressId, 100, "Im done!");
 ```
 
-Create your 100% custom Prompts using templates.
+# templates
+Create your 100% custom Prompts and Editors using templates.
 For more information about templating, please find the attached example 5.js
 ```javascript
 const templateId = "myForm";
@@ -118,9 +119,26 @@ async function askTemplate() {
 }
 ```
 
+Sending data to template works by passing an object to ui.ask:
+```javascript
+const myData = {somethingINeed: "foo", moreInformation: "bar"};
+const answer = await ui.ask(myCustomQuestion, myData);
+```
+
+You will also need a function in your template to receive the data.
+```javascript
+function receiveNodeData(data) {
+    // do what you want
+}
+```
+
 # Examples
 Please discover the examples under examples/\
 Run them:
 ```
-node ./node_modules/cli-to-web/examples/1.js
+node ./node_modules/cli-to-web/examples/1.js // simple messages
+node ./node_modules/cli-to-web/examples/2.js // show progress
+node ./node_modules/cli-to-web/examples/3.js // asking html-content
+node ./node_modules/cli-to-web/examples/4.js // asking predefined questions
+node ./node_modules/cli-to-web/examples/5.js // using templates
 ```

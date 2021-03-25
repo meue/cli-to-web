@@ -1,11 +1,11 @@
 const Answer = require("./Answer");
 
 class Task {
-    constructor(html, io, type) {
+    constructor(clientData, type) {
         /** @type {Answer} */ this.answers = null;
         this.state = Task.OPEN;
         this.type = type;
-        this.html = html;
+        this.clientData = clientData;
         this.progress = 0;
         this.id = Math.floor(Math.random() * 1000000);
         this.promiseFunctions = {};
@@ -54,13 +54,16 @@ class Task {
     async sendToWeb(socket) {
         const taskObject = {
             "id": this.id,
-            "html": this.html
+            "taskData": this.clientData
         };
+
         if (this.type === Task.TYPE_PROGRESS) {
             taskObject.progress = this.progress;
         }
         this.state = Task.PENDING;
-        socket.emit(this.type, JSON.stringify(taskObject));
+
+        const json = JSON.stringify(taskObject);
+        socket.emit(this.type, json);
         await this.promise;
     }
 

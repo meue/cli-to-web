@@ -80,6 +80,10 @@ class TaskManager {
         }
     }
 
+    /**
+     * Called when a new connection was established. Send all open cast to him
+     * @param {socket} socket 
+     */
     broadcastNewSocket(socket) {
         for (let i = 0; i < this.tasks.length; i++) {
             const task = this.tasks[i];

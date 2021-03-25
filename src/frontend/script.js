@@ -14,28 +14,28 @@ socket.on('removeTask', function (msg) {
 socket.on('done', function (msg) {
     var data = JSON.parse(msg);
     var content = document.createElement("div");
-    content.innerHTML = data.html;
+    content.innerHTML = data.taskData;
     createBox(content, "done");
 });
 
 socket.on('message', function (msg) {
     var data = JSON.parse(msg);
     var content = document.createElement("div");
-    content.innerHTML = data.html;
+    content.innerHTML = data.taskData;
     createBox(content, "notify");
 });
 
 socket.on('error', function (msg) {
     var data = JSON.parse(msg);
     var content = document.createElement("div");
-    content.innerHTML = data.html;
+    content.innerHTML = data.taskData;
     createBox(content, "error");
 });
 
 socket.on('warning', function (msg) {
     var data = JSON.parse(msg);
     var content = document.createElement("div");
-    content.innerHTML = data.html;
+    content.innerHTML = data.taskData;
     createBox(content, "warning");
 });
 
@@ -43,13 +43,18 @@ socket.on('progress', function (msg) {
     var json = JSON.parse(msg);
     var id = json.id;
     var percent = json.progress;
-    var html = json.html;
+    var html = json.taskData.html;
+    if (!html) {
+        html = "";
+    }
 
     /** @type {Progress} */
     var progress = progresses[id];
     if (progress) {
         // update progress
-        progress.setHTML(html);
+        if (html) {
+            progress.setHTML(html);
+        }
         progress.setProgress(percent);
         return;
     }
@@ -63,12 +68,13 @@ socket.on('progress', function (msg) {
 });
 
 function newTask(json) {
+
     // TODO: move to class
     const id = json.id;
-    const html = json.html;
+    const clientData = json.taskData;
     var content = document.createElement("div");
+    addHTML(content, clientData);
     var box = createBox(content, "");
-    content.innerHTML = html;
 
     var okButton = document.createElement("input");
     okButton.value = "Submit";
@@ -100,6 +106,27 @@ function newTask(json) {
     content.appendChild(okButton);
     tasks[id] = box;
 }
+
+function addHTML(container, nodeData) {
+    if (nodeData.type === "iframe") {
+        const iframe = document.createElement("iframe");
+        iframe.id = nodeData.iframe.iframeId;
+        iframe.src = nodeData.iframe.iframeURL;
+        iframe.height = nodeData.iframe.iframeHeight;
+        iframe.allowtransparency = "true";
+        iframe.frameborder = "0";
+        iframe.seamless = "true";
+        container.appendChild(iframe);
+
+        iframe.onload = function () {
+            iframe.contentWindow.receiveNodeData(nodeData.parameters);
+        }
+
+        return;
+    }
+    container.innerHTML = nodeData.html;
+}
+
 function getIframes(content) {
     return content.getElementsByTagName("iframe");
 }

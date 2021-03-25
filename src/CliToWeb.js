@@ -44,33 +44,51 @@ class CliToWeb {
     }
 
     /**
-     * @param {String|Question} data html-string or Question
+     * @param {String|Question|Template} data html-string or Question or Template
+     * @param {object} parameters to be passed to template if used
      * @returns {Answer}
      */
-    async ask(data) {
-        let html;
-        if (data.constructor.name === "Question" || data.constructor.name === "Template") {
-            html = data.getHTML();
-        } else {
-            html = data;
-        }
-        /** @type {Task} */const task = new Task(html, websocket, Task.TYPE_QUESTION);
+    async ask(data, parameters) {
+        let clientData = {};
+        // TODO: remove if else if else
+        if (data.constructor.name === "Template") {
+            clientData.type = "iframe";
+            clientData.iframe = data.getObject();
+            clientData.parameters = parameters;
+        } else
+            if (data.constructor.name === "Question") {
+                clientData.type = "html"; // TODO: move to json for consistency
+                clientData.html = data.getHTML();
+            } else {
+                clientData.type = "html";
+                clientData.html = data;
+            }
+        /** @type {Task} */const task = new Task(clientData, Task.TYPE_QUESTION);
         await this.taskManager.addTask(task);
         return task.getAnswers();
     }
 
     tell(html) {
-        /** @type {Task} */const task = new Task(html, websocket, Task.TYPE_MESSAGE);
+        let clientData = {};
+        clientData.type = "html";
+        clientData.html = html;
+        /** @type {Task} */const task = new Task(html, Task.TYPE_MESSAGE);
         this.taskManager.addTask(task);
     }
 
     warn(html) {
-        /** @type {Task} */const task = new Task(html, websocket, Task.TYPE_WARNING);
+        let clientData = {};
+        clientData.type = "html";
+        clientData.html = html;
+        /** @type {Task} */const task = new Task(html, Task.TYPE_WARNING);
         this.taskManager.addTask(task);
     }
 
     error(html) {
-        /** @type {Task} */const task = new Task(html, websocket, Task.TYPE_ERROR);
+        let clientData = {};
+        clientData.type = "html";
+        clientData.html = html;
+        /** @type {Task} */const task = new Task(html, Task.TYPE_ERROR);
         this.taskManager.addTask(task);
     }
 
@@ -79,7 +97,10 @@ class CliToWeb {
      * @returns {number}
      */
     showProgress(html) {
-        /** @type {Task} */const task = new Task(html, websocket, Task.TYPE_PROGRESS);
+        let clientData = {};
+        clientData.type = "html";
+        clientData.html = html;
+        /** @type {Task} */const task = new Task(clientData, Task.TYPE_PROGRESS);
         return this.taskManager.addMessage(task);
     }
 
@@ -94,7 +115,7 @@ class CliToWeb {
         const task = this.taskManager.getTaskById(id);
         task.setProgressPercent(percent);
         if (html) {
-            task.html = html;
+            task.clientData.html = html;
         }
         this.taskManager.updateMessage(task);
     }

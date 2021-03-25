@@ -4,10 +4,18 @@ class Template {
         this.height = height;
     }
 
-    getHTML() {
+    /**
+     * @param {object} parameters
+     * @returns {string}
+     */
+    getObject() {
         const path = "/" + this.moduleID;
-        const html = `<iframe height="${this.height}" seamless frameborder="0" allowtransparency="true" scrolling="no" src="${path}/index.html" />`;
-        return html;
+        const result = {
+            iframeHeight: this.height,
+            iframeURL: path + "/index.html",
+            iframeId: this.moduleID
+        };
+        return result;
     }
 }
 

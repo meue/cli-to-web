@@ -24,4 +24,3 @@ function update() {
     // Use progressID to update progress
     ui.updateProgress(progressId, percent);
 }
-
