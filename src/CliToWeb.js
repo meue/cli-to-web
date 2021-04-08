@@ -16,13 +16,10 @@ class CliToWeb {
         this.sockets = [];
         /** @type{Array.<Task>}*/this.tasks = [];
         const self = this;
-        /*app.get('/', (req, res) => {
-            res.sendFile(__dirname + '/frontend/index.html');
-        });*/
 
         app.use('/', express.static(__dirname + '/frontend/'));
 
-        webserver.listen(port, () => {
+        this.webserver = webserver.listen(port, () => {
             console.log(`CLI-to-Web-Server running at http://localhost:${port}/`);
         });
 
@@ -34,6 +31,10 @@ class CliToWeb {
 
     show() {
         open(`http://localhost:${port}/`);
+    }
+
+    finish() {
+        this.webserver.close();
     }
 
     initSocketListener(socket) {
@@ -126,9 +127,9 @@ class CliToWeb {
      * @param {number} height 
      * @returns {Template}
      */
-    registerTemplate(id, path, height) {
+    registerTemplate(id, path) {
         app.use('/' + id, express.static(path));
-        const template = new Template(id, height);
+        const template = new Template(id);
         return template;
     }
 };

@@ -56,15 +56,25 @@ You dont need to open the browser this way. You can also open it manually at any
 ui.show();
 ```
 
+Close Webserver
+```javascript
+ui.finish();
+```
+
 Show a simple message
 ```javascript
 ui.tell("Hey, you rock!");
 ```
 
+Warning message
+```javascript
+ui.warn("something is weird but still running.");
+```
+
 Error message
 ```javascript
 const errormessage = ...
-ui.tell("something failed. here is your stacktrace: " + errormessage);
+ui.error("something failed. here is your stacktrace: " + errormessage);
 ```
 
 Ask a html-page. For more complex pages including js and css, please see Templates
@@ -127,8 +137,20 @@ const answer = await ui.ask(myCustomQuestion, myData);
 
 You will also need a function in your template to receive the data.
 ```javascript
-function receiveNodeData(data) {
-    // do what you want
+
+// api will be injected as soon as "apiLoaded" was triggered
+window.addEventListener("apiLoaded", ready);
+function ready() {
+    // receive parameters from node
+    const parameters = api.getNodeParams();
+    console.log(parameters.somethingINeed);
+    console.log(parameters.moreInformation);
+
+    // rescale your iframe (will be done initially)
+    api.rescale();
+
+    // get iframe instance.. just in case you need it
+    const iframe = api.getIframe();
 }
 ```
 

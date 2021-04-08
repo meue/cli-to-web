@@ -112,14 +112,13 @@ function addHTML(container, nodeData) {
         const iframe = document.createElement("iframe");
         iframe.id = nodeData.iframe.iframeId;
         iframe.src = nodeData.iframe.iframeURL;
-        iframe.height = nodeData.iframe.iframeHeight;
         iframe.allowtransparency = "true";
         iframe.frameborder = "0";
         iframe.seamless = "true";
         container.appendChild(iframe);
 
         iframe.onload = function () {
-            iframe.contentWindow.receiveNodeData(nodeData.parameters);
+            injectAPI(iframe, api);
         }
 
         return;
@@ -174,6 +173,30 @@ function createBox(content, type) {
     task.appendChild(content);
     taskContainer.appendChild(task);
     return task;
+}
+
+function injectAPI(iframe) {
+    const api = getAPI(iframe, nodeData.parameters);
+    const win = iframe.contentWindow;
+    win.api = api;
+    api.rescale();
+    win.dispatchEvent(new Event("apiLoaded"));
+}
+
+function getAPI(iframe, nodeParams) {
+    const api = {};
+    api.rescale = function () { rescaleIframe(iframe) };
+    api.getIframe = function () { return iframe };
+    api.getNodeParams = function () { return nodeParams };
+    api.submit = function (iframeValues) { /* TODO */ };
+    api.addSubmitButton = function () { /* TODO */ };
+    return api;
+}
+
+function rescaleIframe(iframe) {
+    const doc = iframe.contentDocument;
+    const height = doc.getElementsByTagName("html")[0].offsetHeight;
+    iframe.style.height = height + "px";
 }
 
 class Progress {

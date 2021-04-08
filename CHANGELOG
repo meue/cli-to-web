@@ -1,0 +1,6 @@
+1.1.0
+    - added finish() to api to stop webserver.
+    - added api for templates. this includes:
+        - api.rescale(); // rescales the iframe where your template is displayed
+        - api.getIframe(); // returns dom instance of your iframe to grant you more freedom
+        - api.getNodeParams(); // returns the params sent from your node app

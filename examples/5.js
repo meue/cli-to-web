@@ -9,11 +9,10 @@ const myCustomQuestion = ui.registerTemplate(templateId, templatePath);
 askTemplate();
 
 async function askTemplate() {
-    const someValuesToPass = { value: 1, value2: 2 };
+    const someValuesToPass = { value: "foo", value2: "bar" };
     const answer = await ui.ask(myCustomQuestion, someValuesToPass);
     console.log("Your values:");
     console.log(answer.getValue("valuesFromIframe1"));
     console.log(answer.getValue("valuesFromIframe2"));
-    console.log(answer.getValue("valuesFromIframe3"));
     ui.tell("Thank you");
 }

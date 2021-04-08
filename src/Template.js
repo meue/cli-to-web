@@ -1,7 +1,6 @@
 class Template {
-    constructor(moduleID, height) {
+    constructor(moduleID) {
         this.moduleID = moduleID;
-        this.height = height;
     }
 
     /**
@@ -11,7 +10,6 @@ class Template {
     getObject() {
         const path = "/" + this.moduleID;
         const result = {
-            iframeHeight: this.height,
             iframeURL: path + "/index.html",
             iframeId: this.moduleID
         };
