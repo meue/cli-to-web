@@ -118,7 +118,7 @@ For more information about templating, please find the attached example 5.js
 ```javascript
 const templateId = "myForm";
 const templatePath = __dirname + "/myTemplate";
-const myCustomQuestion = ui.registerTemplate(templateId, templatePath, 100);
+const myCustomQuestion = ui.registerTemplate(templateId, templatePath);
 
 async function askTemplate() {
     const answer = await ui.ask(myCustomQuestion);
