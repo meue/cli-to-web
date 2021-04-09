@@ -4,3 +4,5 @@
         - api.rescale(); // rescales the iframe where your template is displayed
         - api.getIframe(); // returns dom instance of your iframe to grant you more freedom
         - api.getNodeParams(); // returns the params sent from your node app
+1.1.1
+    - fixed api injection
