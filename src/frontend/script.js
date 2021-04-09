@@ -110,6 +110,7 @@ function newTask(json) {
 function addHTML(container, nodeData) {
     if (nodeData.type === "iframe") {
         const iframe = document.createElement("iframe");
+        const api = getAPI(iframe, nodeData.parameters);
         iframe.id = nodeData.iframe.iframeId;
         iframe.src = nodeData.iframe.iframeURL;
         iframe.allowtransparency = "true";
@@ -175,8 +176,7 @@ function createBox(content, type) {
     return task;
 }
 
-function injectAPI(iframe) {
-    const api = getAPI(iframe, nodeData.parameters);
+function injectAPI(iframe, api) {
     const win = iframe.contentWindow;
     win.api = api;
     api.rescale();
