@@ -95,6 +95,9 @@ function newTask(json) {
             if (input.type === "checkbox") {
                 value = input.checked;
             }
+            if (input.type === "select-multiple") {
+                value = getValuesFromSelect(input);
+            }
             values.push({ 'id': input.id, 'value': value });
         }
         const iframeValues = getValuesFromIframes(iframes);
@@ -105,6 +108,19 @@ function newTask(json) {
     })
     content.appendChild(okButton);
     tasks[id] = box;
+}
+
+function getValuesFromSelect(select) {
+    const result = [];
+    const options = select.options;
+
+    for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        if (option.selected) {
+            result.push(option.value);
+        }
+    }
+    return result;
 }
 
 function addHTML(container, nodeData) {

@@ -10,6 +10,7 @@ async function askStuff() {
     question.addNumber("age", "What is your age?", 1, 99);
     question.addChoice("gender", "What is your gender?", ["girl", "boy"]);
     question.addChoice("from", "Where are you from?", ["Asia", "America", "Africa", "Australia", "Europe"]);
+    question.addMultipleChoice("movies", "select all the movies you know", ["Pulp Fiction", "Harry Potter", "The Moon", "The Lion King", "Ironman", "Joker"]);
     question.addColor("color", "Whats your hair color?");
     question.addDate("birth", "Whats your birthdate?");
     question.addTime("time", "Whats your current time?");
@@ -29,6 +30,7 @@ async function askStuff() {
     const time = answer.getValue("time");
     const sheep = answer.getValue("sheep");
     const awesome = answer.getValue("checked") === true;
+    const movies = answer.getValue("movies");
 
     // Log something 
     console.log(`${name}, the nice is ${age} years old ${gender} is from ${from}.`);
@@ -36,6 +38,7 @@ async function askStuff() {
     console.log(`You are born on ${birth}`);
     console.log(`Its ${time} o'clock`);
     console.log(`${sheep} sheep.. `);
+    console.log(`Your favorite movies are ${movies}.`);
 
     if (awesome) {
         console.log(`You are awesome.`);

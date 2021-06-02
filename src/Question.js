@@ -62,6 +62,25 @@ class Question {
         this.questionObjects.push(html);
     }
 
+    /**
+     * @param {string} valueId 
+     * @param {string} text 
+     * @param {Array.<string>} choicesArray 
+     */
+    addMultipleChoice(valueId, text, choicesArray) {
+        const size = choicesArray.length;
+        let html = "<div class='questionPart'>";
+        html += `<h2>${text}</h2>`;
+        html += `<select multiple id="${valueId}" size="${size}">`;
+        for (let i = 0; i < size; i++) {
+            const element = choicesArray[i];
+            html += `<option value="${element}">${element}</option>`;
+        }
+        html += `</select>`;
+        html += "</div>";
+        this.questionObjects.push(html);
+    }
+
     addColor(valueId, text) {
         let html = "<div class='questionPart'>";
         html += `<h2>${text}</h2>`;

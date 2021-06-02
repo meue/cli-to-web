@@ -89,6 +89,7 @@ const question = new ui.Question();
 question.addString("projectName", "Whats the name of your product?", 20);
 question.addNumber("someNumber", "please enter some number", 3);
 question.addChoice("someChoice", "please choose", ["answer1", "answer2", "answer3"]);
+question.addMultipleChoice("multipleChoice", "please choose multiple", ["answer1", "answer2", "answer3"]);
 question.addColor("someColor", "Tell me a color");
 question.addDate("someDate", "Tell me a date");
 question.addTime("someTime", "Whats your current time?");
