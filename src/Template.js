@@ -4,7 +4,6 @@ class Template {
     }
 
     /**
-     * @param {object} parameters
      * @returns {string}
      */
     getObject() {

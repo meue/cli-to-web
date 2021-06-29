@@ -9,6 +9,7 @@ const Template = require('./Template');
 const Question = require('./Question');
 const Task = require('./Task');
 const TaskManager = require('./TaskManager');
+const ExternalTemplate = require('./ExternalTemplate');
 
 class CliToWeb {
     constructor() {
@@ -30,7 +31,7 @@ class CliToWeb {
     }
 
     show() {
-        open(`http://localhost:${port}/`);
+        open(`http://0.0.0.0:${port}/`);
     }
 
     finish() {
@@ -52,7 +53,7 @@ class CliToWeb {
     async ask(data, parameters) {
         let clientData = {};
         // TODO: remove if else if else
-        if (data.constructor.name === "Template") {
+        if (data.constructor.name === "Template" || data.constructor === ExternalTemplate) {
             clientData.type = "iframe";
             clientData.iframe = data.getObject();
             clientData.parameters = parameters;
@@ -125,12 +126,16 @@ class CliToWeb {
      * @param {number} id 
      * @param {string} path 
      * @param {number} height 
+     * @param {boolean} isURL
      * @returns {Template}
      */
-    registerTemplate(id, path) {
-        app.use('/' + id, express.static(path));
-        const template = new Template(id);
-        return template;
+    registerTemplate(id, path, isURL) {
+        if(!isURL){
+            app.use('/' + id, express.static(path));
+            return new Template(id);
+        }
+
+        return new ExternalTemplate(id, path);
     }
 };
 

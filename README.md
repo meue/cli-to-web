@@ -23,24 +23,6 @@ simple as it should be:
 npm install cli-to-web
 ```
 
-# change port
-defaultport is 3000, but can be changed to anything you like.
-
-Bash:
-```
-PORT=3001 node ./myNodeApp.js
-```
-Windows Powershell:
-```
-$env:PORT=3001
-node ./myNodeApp.js
-```
-Windows CMD:
-```
-SET PORT=3001
-node ./myNodeApp.js
-```
-
 # usage
 Instantiate it on every node.js-file you need it. It is a singleton and you dont need to pass the instance of cli-to-web
 ```javascript
@@ -153,6 +135,33 @@ function ready() {
     // get iframe instance.. just in case you need it
     const iframe = api.getIframe();
 }
+```
+
+You can also specify a URL for your template to call your external helper-tools.\
+Simply use an URL for the templatePath.\
+But take care: You need to take care for the cross-origin problem yourself. Maybe with a crossdomain.xml file
+```javascript
+const templateId = "myForm";
+const templatePath = "0.0.0.0:80/myCoolForm";
+const myCustomQuestion = ui.registerTemplate(templateId, templatePath);
+```
+
+# change port
+defaultport is 3000, but can be changed to anything you like.
+
+Bash:
+```
+PORT=3001 node ./myNodeApp.js
+```
+Windows Powershell:
+```
+$env:PORT=3001
+node ./myNodeApp.js
+```
+Windows CMD:
+```
+SET PORT=3001
+node ./myNodeApp.js
 ```
 
 # Examples
