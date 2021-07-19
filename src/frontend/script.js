@@ -1,6 +1,8 @@
 var socket = io();
 var progresses = [];
 var tasks = [];
+var messageData = null;
+
 socket.on('question', function (msg) {
     var task = JSON.parse(msg);
     newTask(task);
@@ -77,34 +79,41 @@ function newTask(json) {
     var box = createBox(content, "");
 
     var okButton = document.createElement("input");
+    var result = {};
     okButton.value = "Submit";
     okButton.type = "button";
     okButton.className = "submit";
     okButton.addEventListener("click", function () {
-        var inputs = getInputFields(content);
-        var iframes = getIframes(content);
-        var result = {};
-        var values = [];
-        for (var i = 0; i < inputs.length; i++) {
-            var input = inputs[i];
-            let value = input.value;
+        if (messageData !== null) {
+            result["values"] = [messageData];
+            result["id"] = id;
+            const jsonData = JSON.stringify(result);
+            socket.emit('taskDone', jsonData);
+        } else {
+            var inputs = getInputFields(content);
+            var iframes = getIframes(content);
+            var values = [];
+            for (var i = 0; i < inputs.length; i++) {
+                var input = inputs[i];
+                let value = input.value;
 
-            if (input == okButton) {
-                continue;
+                if (input == okButton) {
+                    continue;
+                }
+                if (input.type === "checkbox") {
+                    value = input.checked;
+                }
+                if (input.type === "select-multiple") {
+                    value = getValuesFromSelect(input);
+                }
+                values.push({ 'id': input.id, 'value': value });
             }
-            if (input.type === "checkbox") {
-                value = input.checked;
-            }
-            if (input.type === "select-multiple") {
-                value = getValuesFromSelect(input);
-            }
-            values.push({ 'id': input.id, 'value': value });
+            const iframeValues = getValuesFromIframes(iframes);
+            values = values.concat(iframeValues);
+            result["values"] = values;
+            result["id"] = id;
+            socket.emit('taskDone', JSON.stringify(result));
         }
-        const iframeValues = getValuesFromIframes(iframes);
-        values = values.concat(iframeValues);
-        result["values"] = values;
-        result["id"] = id;
-        socket.emit('taskDone', JSON.stringify(result));
     })
     content.appendChild(okButton);
     tasks[id] = box;
@@ -132,15 +141,55 @@ function addHTML(container, nodeData) {
         iframe.allowtransparency = "true";
         iframe.frameborder = "0";
         iframe.seamless = "true";
+
+        const eventMethod = window.addEventListener;
+        const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+
+        window.addEventListener(messageEvent, function (e) {
+            if (e.data.message === 'loaded') {
+                console.log('loaded!');
+            }
+
+            if (e.data.message === 'setHeight') {
+                iframe.style.height = e.data.height + 'px';
+            }
+
+            if (e.data.message === 'setData') {
+                messageData = e.data.data;
+            }
+        });
+
         container.appendChild(iframe);
 
-        iframe.onload = function () {
-            injectAPI(iframe, api);
+        if (canAccessIFrame(iframe)) {
+            iframe.onload = function () {
+                injectAPI(iframe, api);
+            }
+        } else {
+            iframe.onload = function () {
+                document.getElementById(nodeData.iframe.iframeId).contentWindow.postMessage({
+                    message: 'init'
+                }, "*");
+            }
         }
+
 
         return;
     }
     container.innerHTML = nodeData.html;
+}
+
+function canAccessIFrame(iframe) {
+    var html = null;
+    try {
+        // deal with older browsers
+        var doc = iframe.contentDocument || iframe.contentWindow.document;
+        html = doc.body.innerHTML;
+    } catch (err) {
+        // do nothing
+    }
+
+    return (html !== null);
 }
 
 function getIframes(content) {
