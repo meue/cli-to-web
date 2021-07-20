@@ -10,3 +10,5 @@
     - added multipleChoice Question
 1.1.3
     - added external website support for registerTemplate
+1.1.4
+    - external websites in templates with cross-origin-problems fall back to postMessage
