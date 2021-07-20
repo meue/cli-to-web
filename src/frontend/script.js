@@ -163,7 +163,7 @@ function addHTML(container, nodeData) {
         
         iframe.onload = function () {
             let hasAccess = canAccessIFrame(iframe);
-            if(hasAccess) {
+            if (hasAccess) {
                 injectAPI(iframe, api);
             } else {
                 document.getElementById(nodeData.iframe.iframeId).contentWindow.postMessage({
