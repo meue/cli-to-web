@@ -160,20 +160,19 @@ function addHTML(container, nodeData) {
         });
 
         container.appendChild(iframe);
-
-        if (canAccessIFrame(iframe)) {
-            iframe.onload = function () {
+        
+        iframe.onload = function () {
+            let hasAccess = canAccessIFrame(iframe);
+            if(hasAccess) {
                 injectAPI(iframe, api);
-            }
-        } else {
-            iframe.onload = function () {
+            } else {
                 document.getElementById(nodeData.iframe.iframeId).contentWindow.postMessage({
                     message: 'init'
                 }, "*");
             }
         }
 
-
+        
         return;
     }
     container.innerHTML = nodeData.html;
