@@ -172,7 +172,6 @@ function addHTML(container, nodeData) {
             }
         }
 
-        
         return;
     }
     container.innerHTML = nodeData.html;
