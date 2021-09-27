@@ -12,3 +12,5 @@
     - added external website support for registerTemplate
 1.1.4
     - external websites in templates with cross-origin-problems fall back to postMessage
+1.1.5
+    - changed webadress from 0.0.0.0 to localhost
