@@ -31,7 +31,7 @@ class CliToWeb {
     }
 
     show() {
-        open(`http://0.0.0.0:${port}/`);
+        open(`http://localhost:${port}/`);
     }
 
     finish() {
