@@ -18,3 +18,11 @@
     - added -1 to progressbar to hide the bar
     - added -2 to progressbar to show indetermined progress (stripes moving on bar)
     - added example 6
+
+2.0.0
+    - API-Change: to improve codecompletion you now need to use 
+        const {ui} require("../src/CliToWeb");
+    - You can add Question, Answer and/or Template
+        const {ui, Question, Answer, Template} = require("../src/CliToWeb");
+    - You also cant use ui.Answer and ui.Question anymore. Instead use Answer and Question.
+    - Added constants for ui.PROGRESS_INVISIBLE and ui.PROGRESS_INDETERMINED

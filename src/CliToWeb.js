@@ -65,7 +65,7 @@ class CliToWeb {
                 clientData.type = "html";
                 clientData.html = data;
             }
-        /** @type {Task} */const task = new Task(clientData, Task.TYPE_QUESTION);
+        /** @type {Task} */ const task = new Task(clientData, Task.TYPE_QUESTION);
         await this.taskManager.addTask(task);
         return task.getAnswers();
     }
@@ -74,7 +74,7 @@ class CliToWeb {
         let clientData = {};
         clientData.type = "html";
         clientData.html = html;
-        /** @type {Task} */const task = new Task(html, Task.TYPE_MESSAGE);
+        /** @type {Task} */ const task = new Task(html, Task.TYPE_MESSAGE);
         this.taskManager.addTask(task);
     }
 
@@ -82,7 +82,7 @@ class CliToWeb {
         let clientData = {};
         clientData.type = "html";
         clientData.html = html;
-        /** @type {Task} */const task = new Task(html, Task.TYPE_WARNING);
+        /** @type {Task} */ const task = new Task(html, Task.TYPE_WARNING);
         this.taskManager.addTask(task);
     }
 
@@ -90,7 +90,7 @@ class CliToWeb {
         let clientData = {};
         clientData.type = "html";
         clientData.html = html;
-        /** @type {Task} */const task = new Task(html, Task.TYPE_ERROR);
+        /** @type {Task} */ const task = new Task(html, Task.TYPE_ERROR);
         this.taskManager.addTask(task);
     }
 
@@ -102,7 +102,7 @@ class CliToWeb {
         let clientData = {};
         clientData.type = "html";
         clientData.html = html;
-        /** @type {Task} */const task = new Task(clientData, Task.TYPE_PROGRESS);
+        /** @type {Task} */ const task = new Task(clientData, Task.TYPE_PROGRESS);
         return this.taskManager.addMessage(task);
     }
 
@@ -130,18 +130,18 @@ class CliToWeb {
      * @returns {Template}
      */
     registerTemplate(id, path, isURL) {
-        if(!isURL){
+        if (!isURL) {
             app.use('/' + id, express.static(path));
             return new Template(id);
         }
 
         return new ExternalTemplate(id, path);
     }
+
+    get PROGRESS_INDETERMINED() { return -1 };
+    get PROGRESS_INVISIBLE() { return -2 };
 };
 
 const ui = new CliToWeb();
-/** @type {Question} **/ ui.Question = Question;
-/** @type {Answer} **/ ui.Answer = Answer;
-/** @type {Template} **/ ui.Template = Template;
 
-module.exports = ui;
+module.exports = { ui, Question, Answer, Template };

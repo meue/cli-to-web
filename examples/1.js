@@ -1,4 +1,4 @@
-const ui = require("../src/CliToWeb");
+const { ui } = require("../src/CliToWeb");
 
 // opens the browser. you dont need to call show in the beginning. You can also join later or open the page manually
 ui.show();

@@ -1,11 +1,11 @@
-const ui = require("../src/CliToWeb");
+const { ui, Answer, Question } = require("../src/CliToWeb");
 
 // opens the browser. you dont need to call show in the beginning. You can also join later or open the page manually
 ui.show();
 
 async function askStuff() {
     // Create Question instance, fill with some values
-    const question = new ui.Question();
+    const question = new Question();
     question.addString("name", "What is your name?", 50);
     question.addNumber("age", "What is your age?", 1, 99);
     question.addChoice("gender", "What is your gender?", ["girl", "boy"]);
@@ -18,7 +18,7 @@ async function askStuff() {
     question.addCheckbox("checked", "Check if you are awesome?", true);
 
     // Wait until answer is given
-    const answer = await ui.ask(question);
+    /** @type {Answer} */ const answer = await ui.ask(question);
 
     // Get Answer using ids
     const name = answer.getValue("name");

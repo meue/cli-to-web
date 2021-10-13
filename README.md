@@ -26,7 +26,7 @@ npm install cli-to-web
 # usage
 Instantiate it on every node.js-file you need it. It is a singleton and you dont need to pass the instance of cli-to-web
 ```javascript
-const ui = require("cli-to-web");
+const {ui, Question, Answer, Template} = require("cli-to-web");
 ui.tell("Hello web interface");
 ```
 
@@ -67,7 +67,7 @@ const someValue = answer.getValue("idOnHTML-page");
 
 Ask with predefined templates
 ```javascript
-const question = new ui.Question();
+const question = new Question();
 question.addString("projectName", "Whats the name of your product?", 20);
 question.addNumber("someNumber", "please enter some number", 3);
 question.addChoice("someChoice", "please choose", ["answer1", "answer2", "answer3"]);
@@ -98,15 +98,15 @@ ui.updateProgress(progressId, 100, "Im done!");
 Show no progress, just keep and update the text
 ```javascript
 const progressId = ui.showProgress();
-ui.updateProgress(progressId, -1, "Doing something");
-ui.updateProgress(progressId, -1, "... and now something else");
-ui.updateProgress(progressId, -1, "... surprise!");
+ui.updateProgress(progressId, ui.PROGRESS_INVISIBLE, "Doing something");
+ui.updateProgress(progressId, ui.PROGRESS_INVISIBLE, "... and now something else");
+ui.updateProgress(progressId, ui.PROGRESS_INVISIBLE, "... surprise!");
 ```
 
 Show indetermined progress (moving stripes, filled progressbar)
 ```javascript
 const progressId = ui.showProgress();
-ui.updateProgress(progressId, -2, "dont know how long this might take");
+ui.updateProgress(progressId, ui.PROGRESS_INDETERMINED, "dont know how long this might take");
 ```
 
 # templates
