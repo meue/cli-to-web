@@ -160,7 +160,7 @@ function addHTML(container, nodeData) {
         });
 
         container.appendChild(iframe);
-        
+
         iframe.onload = function () {
             let hasAccess = canAccessIFrame(iframe);
             if (hasAccess) {
@@ -280,6 +280,18 @@ class Progress {
     }
 
     setProgress(percent) {
+        this.bar.classList.remove("indetermined");
+        this.bar.classList.remove("invisible");
+
+        if (percent === -1) {
+            this.bar.classList.add("indetermined");
+            this.fill.style.width = "";
+            return;
+        }
+        if (percent === -2) {
+            this.bar.classList.add("invisible");
+            return;
+        }
         this.fill.style.width = percent + "%";
     }
 

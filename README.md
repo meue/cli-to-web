@@ -95,6 +95,20 @@ ui.updateProgress(progressId, 75);
 ui.updateProgress(progressId, 100, "Im done!");
 ```
 
+Show no progress, just keep and update the text
+```javascript
+const progressId = ui.showProgress();
+ui.updateProgress(progressId, -1, "Doing something");
+ui.updateProgress(progressId, -1, "... and now something else");
+ui.updateProgress(progressId, -1, "... surprise!");
+```
+
+Show indetermined progress (moving stripes, filled progressbar)
+```javascript
+const progressId = ui.showProgress();
+ui.updateProgress(progressId, -2, "dont know how long this might take");
+```
+
 # templates
 Create your 100% custom Prompts and Editors using templates.
 For more information about templating, please find the attached example 5.js
@@ -173,4 +187,5 @@ node ./node_modules/cli-to-web/examples/2.js // show progress
 node ./node_modules/cli-to-web/examples/3.js // asking html-content
 node ./node_modules/cli-to-web/examples/4.js // asking predefined questions
 node ./node_modules/cli-to-web/examples/5.js // using templates
+node ./node_modules/cli-to-web/examples/6.js // replace your remote-ssh-commands with buttons
 ```

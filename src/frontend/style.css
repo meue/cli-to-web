@@ -59,6 +59,25 @@ iframe {
     border-radius: 2px;
 }
 
+.progress .bar.indetermined .fill {
+    width: 100%;
+    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.125) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.125) 50%, rgba(255, 255, 255, 0.125) 75%, transparent 75%, transparent);
+    background-size: 35px 35px;
+    animation: progress-indetermined 1s linear infinite;
+}
+
+.progress .bar.invisible {
+    display: none;
+}
+
+@keyframes progress-indetermined {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 35px 0;
+    }
+}
 
 .task > div { }
 

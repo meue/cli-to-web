@@ -1,15 +1,16 @@
 {
   "name": "cli-to-web",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "",
   "main": "src/CliToWeb.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "run_example_1": "node ./examples/1.js",
-    "run_example_2": "node ./examples/2.js",
-    "run_example_3": "node ./examples/3.js",
-    "run_example_4": "node ./examples/4.js",
-    "run_example_5": "node ./examples/5.js"
+    "run_example_1 (basics) ": "node ./examples/1.js",
+    "run_example_2 (progressbar)": "node ./examples/2.js",
+    "run_example_3 (simple wizard)": "node ./examples/3.js",
+    "run_example_4 (lots of questions)": "node ./examples/4.js",
+    "run_example_5 (templates)": "node ./examples/5.js",
+    "run_example_6 (replace ssh)": "node ./examples/6.js"
   },
   "author": "Marian Richard Schindler",
   "license": "GNU GENERAL PUBLIC LICENSE",

@@ -14,3 +14,7 @@
     - external websites in templates with cross-origin-problems fall back to postMessage
 1.1.5
     - changed webadress from 0.0.0.0 to localhost
+1.1.6
+    - added -1 to progressbar to hide the bar
+    - added -2 to progressbar to show indetermined progress (stripes moving on bar)
+    - added example 6
