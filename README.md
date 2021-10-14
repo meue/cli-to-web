@@ -188,4 +188,5 @@ node ./node_modules/cli-to-web/examples/3.js // asking html-content
 node ./node_modules/cli-to-web/examples/4.js // asking predefined questions
 node ./node_modules/cli-to-web/examples/5.js // using templates
 node ./node_modules/cli-to-web/examples/6.js // replace your remote-ssh-commands with buttons
+node ./node_modules/cli-to-web/examples/7.js // example-wizard
 ```
